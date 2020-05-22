@@ -1,0 +1,9 @@
+Select  AL.agency_ID, AF.state, (sum(CL.total_hours)/168)  from agencies.carelogs_carelog CL 
+Join caregiver_caregiver CC on CC.user_id = CL.caregiver_id
+Join agency_agencylocation AL on AL.agency_id = CC.agency_id
+join agencies_franchisor AF on AF.agency_id = AL.Agency_id
+where shift_date between DATE'2020-04-20' and DATE'2020-04-26' and AL.franchisor_id =17 
+Group By AL.agency_ID,AF.state
+order by AL.agency_ID
+ ;
+ 

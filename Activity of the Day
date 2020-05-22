@@ -1,0 +1,122 @@
+SELECT franchise_number,
+         Totl_Aod_Calls AS 'Total Aod Calls',Number_of_Shifts,Week_of_Day, sum(case
+    WHEN Week_of_Day=concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -7),'MM/dd/yyyy'))
+        AND Totl_Aod_Calls>0 THEN
+    1
+    WHEN Week_of_Day=concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -14),'MM/dd/yyyy'))
+        AND Totl_Aod_Calls>0 THEN
+    1
+    WHEN Week_of_Day=concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -21),'MM/dd/yyyy'))
+        AND Totl_Aod_Calls>0 THEN
+    1
+    WHEN Week_of_Day=concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -28),'MM/dd/yyyy'))
+        AND Totl_Aod_Calls>0 THEN
+    1
+    ELSE 0 end) AS 'weekly Aod per client' from
+    (SELECT franchise_number ,
+         sum(activity_of_the_day_calls_1_day) AS Totl_Aod_Calls,
+         sum(
+        CASE
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -28)
+            AND activity_of_the_day_calls_1_day>0) THEN
+        1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -27)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -26)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -25)
+            AND activity_of_the_day_calls_1_day>0) THEN
+        1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -24)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -23)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -22)
+            AND activity_of_the_day_calls_1_day>0) THEN
+        1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -21)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -20)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -19)
+            AND activity_of_the_day_calls_1_day>0) THEN
+        1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -18)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -17)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -16)
+            AND activity_of_the_day_calls_1_day>0) THEN
+        1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -15)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -14)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -13)
+            AND activity_of_the_day_calls_1_day>0) THEN
+        1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -12)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -11)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -10)
+            AND activity_of_the_day_calls_1_day>0) THEN
+        1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -09)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -8)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -7)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -6)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -5)
+            AND activity_of_the_day_calls_1_day>0) THEN
+        1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -4)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -3)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -2)
+            AND activity_of_the_day_calls_1_day>0) THEN
+        1
+        WHEN (period_end_date=DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -1)
+            AND activity_of_the_day_calls_1_day>0 )then 1
+        ELSE 0 end) AS Number_of_Shifts ,
+        CASE
+        WHEN (period_end_date >= DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -7)
+            AND period_end_date < DATEADD(wk, DATEDIFF(wk,0,GETDATE()), 0) ) THEN
+        concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -7),'MM/dd/yyyy'))
+        WHEN (period_end_date > = DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -14)
+            AND period_end_date <= DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -7) ) THEN
+        concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -14),'MM/dd/yyyy'))
+        WHEN (period_end_date > = DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -21)
+            AND period_end_date <= DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -15) ) THEN
+        concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -21),'MM/dd/yyyy'))
+        WHEN (period_end_date > = DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -28)
+            AND period_end_date <= DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -22) ) THEN
+        concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -28),'MM/dd/yyyy'))
+        ELSE 'Others'
+        END AS Week_of_Day
+    FROM EDW.Fact_GP_Usage gh
+    WHERE franchise_number IN (116,124,132,147,148,149,150,169,181,195,203,238,241,244,257,258,269,278,320,334,343,363,368,376,383,385,391,413,455,488,514,527 )
+            AND period_end_date
+        BETWEEN DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -28)
+            AND DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -1)
+    GROUP BY  franchise_number,
+        CASE
+        WHEN (period_end_date >= DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -7)
+            AND period_end_date < DATEADD(wk, DATEDIFF(wk,0,GETDATE()), 0) ) THEN
+        concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -7),'MM/dd/yyyy'))
+        WHEN (period_end_date > = DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -14)
+            AND period_end_date <= DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -7) ) THEN
+        concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -14),'MM/dd/yyyy'))
+        WHEN (period_end_date > = DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -21)
+            AND period_end_date <= DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -15) ) THEN
+        concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -21),'MM/dd/yyyy'))
+        WHEN (period_end_date > = DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -28)
+            AND period_end_date <= DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -22) ) THEN
+        concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -28),'MM/dd/yyyy'))
+        ELSE 'Others'
+        END ) final
+GROUP BY  franchise_number,Totl_Aod_Calls,Number_of_Shifts,Week_of_Day

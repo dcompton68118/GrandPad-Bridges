@@ -1,0 +1,105 @@
+SELECT a.id ,
+         activity_type ,
+         art.agency_id ,
+         --al.name ,
+        
+ ---al.city ,
+ --al.state ,
+ af.franchisor_name , af.franchisor_id , atn.name , profile_id , -- first_name ,
+ --last_name ,
+ the_date, sum(case
+    WHEN atn.name = 'Video QA' THEN
+    1
+    ELSE 0 end) AS 'Video QA', sum(case
+    WHEN atn.name = 'Closed/Won IC' THEN
+    1
+    ELSE 0 end) AS 'Closed/Won IC' , sum(case
+    WHEN atn.name = 'Video Intro' THEN
+    1
+    ELSE 0 end) AS 'Video Intro', sum(case
+    WHEN atn.name = 'Phone QA'
+        OR atn.name = 'Phone QA Client'
+        OR atn.name ='Phone QA CG'THEN 1
+    ELSE 0 end) AS 'Phone QA', sum(case
+    WHEN atn.name = 'Quality Assurance Visit' THEN
+    1
+    ELSE 0 end) AS 'Quality Assurance Visit' , sum(case
+    WHEN atn.name = 'Video CG Supervisory Visit' THEN
+    1
+    ELSE 0 end) AS 'Video CG Supervisory Visit', sum(case
+    WHEN atn.name = 'Video Client Relationship Build'
+        OR atn.name='Video Client Relationship BLDG'
+        OR atn.name='Video CL Relationship Building' THEN
+    1
+    ELSE 0 end) AS 'Video Client Relationship Building', sum(case
+    WHEN atn.name = 'On demand Client'
+        OR atn.name = 'On Demand Visit Client' THEN
+    1
+    ELSE 0 end) AS 'On Demand Client', sum(case
+    WHEN atn.name = 'On Demand CAREGiver'
+        OR atn.name = 'On Demand Visit CAREGiver' THEN
+    1
+    ELSE 0 end) AS 'On Demand CG', sum(case
+    WHEN atn.name = 'Inquery Calls'
+        OR atn.name='Service Calls'
+        OR atn.name='Recognition Calls' THEN
+    1
+    ELSE 0 end) AS '# Audio/Phone Calls', sum(case
+    WHEN atn.name = 'In person interview' THEN
+    1
+    ELSE 0 end) AS 'In person QA visits', sum(case
+    WHEN atn.name = 'CC Tags IC Virtual Intro'
+        OR atn.name = 'IC Virtual Intro (GP)' THEN
+    1
+    ELSE 0 end) AS 'IC Video Introduction',
+    CASE
+    WHEN (the_date >= DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -7)
+        AND the_date < DATEADD(wk, DATEDIFF(wk,0,GETDATE()), 0) ) THEN
+    concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -7),'MM/dd/yyyy'))
+    WHEN (the_date > = DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -14)
+        AND the_date <= DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -7) ) THEN
+    concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -14),'MM/dd/yyyy'))
+    WHEN (the_date > = DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -21)
+        AND the_date <= DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -15) ) THEN
+    concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -21),'MM/dd/yyyy'))
+    WHEN (the_date > = DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -28)
+        AND the_date <= DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -22) ) THEN
+    concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -28),'MM/dd/yyyy'))
+    ELSE 'Others'
+    END AS Week_of_Day
+FROM [raw].[agencies_activity_activity_test] a
+JOIN [raw].[agencies_activity_activity_related_to_test] art
+    ON a.id = art.activity_id --JOIN agencies.profile_Patient_agencylocation al
+ --
+    ON art.profile_id = al.id
+JOIN [raw].[agencies_franchisor_test] af
+    ON art.agency_id = af.agency_id
+JOIN [raw].[agencies_activity_activity_tags_test] at
+    ON a.id = at.activity_id
+JOIN [raw].[agencies_activity_activitytag_test] atn
+    ON atn.id = at.activitytag_id
+WHERE atn.name in('Video QA','Closed/Won IC','Video Intro', 'Phone QA','Quality Assurance Visit','Video CG Supervisory Visit','Phone QA Client','Phone QA CG','Video Client Relationship Build' ,'Video Client Relationship BLDG' , 'Video CL Relationship Building','On demand Client' , 'On Demand Visit Client','On Demand CAREGiver' , 'On Demand Visit CAREGiver')
+        AND af.franchisor_id =17
+        AND the_date
+    BETWEEN DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -28)
+        AND DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -1)
+GROUP BY  a.id , activity_type , art.agency_id , --al.name ,
+ ---al.city ,
+ --al.state ,
+ af.franchisor_name , af.franchisor_id , atn.name , profile_id , -- first_name ,
+ --last_name ,
+ the_date,
+    CASE
+    WHEN (the_date >= DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -7)
+        AND the_date < DATEADD(wk, DATEDIFF(wk,0,GETDATE()), 0) ) THEN
+    concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -7),'MM/dd/yyyy'))
+    WHEN (the_date > = DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -14)
+        AND the_date <= DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -7) ) THEN
+    concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -14),'MM/dd/yyyy'))
+    WHEN (the_date > = DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -21)
+        AND the_date <= DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -15) ) THEN
+    concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -21),'MM/dd/yyyy'))
+    WHEN (the_date > = DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -28)
+        AND the_date <= DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -22) ) THEN
+    concat ('Week of ',format(DATEADD(wk, DATEDIFF(wk,0,GETDATE()), -28),'MM/dd/yyyy'))
+    ELSE 'Others' END

@@ -1,0 +1,23 @@
+
+SELECT a.id
+,activity_type
+,art.agency_id
+,al.name
+,al.city
+,al.state
+,af.franchisor_name
+,af.franchisor_id
+,atn.name
+,profile_id
+,first_name
+,last_name
+,the_date
+FROM "agencies"."activity_activity" a 
+ join agencies.activity_activity_related_to art on a.id = art.activity_id
+ join agencies.profile_Patient_agencylocation al on art.profile_id = al.id
+join agencies.agencies_franchisor af on art.agency_id = af.agency_id
+join agencies.activity_activity_tags at on a.id = at.activity_id
+join agencies.activity_activitytag atn on atn.id = at.activitytag_id
+Where atn.name in('Video QA','Closed/Won IC','Video Intro', 'Phone QA','Quality Assurance Visit','Video CG Supervisory Visit','Inquiry Calls','Service Calls','Recognition Calls','Video Client Relationship Build','Video Client Relationship BLDG','Video CL Relationship Building','On Demand Client','On Demand Visit Client','On Demand CAREGiver','On Demand Visit CAREGiver') 
+and af.franchisor_id =17
+;
